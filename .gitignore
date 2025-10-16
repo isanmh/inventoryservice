@@ -1,0 +1,61 @@
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+# Ignore MySQL socket and data files
+volume-data/mysql_keycloak_data/*.sock
+volume-data/mysql_keycloak_data/*.pid
+volume-data/mysql_keycloak_data/*.err
+volume-data/mysql_keycloak_data/*.cnf
+volume-data/mysql_keycloak_data/*.pem
+volume-data/mysql_keycloak_data/*.ibd
+volume-data/mysql_keycloak_data/*.sdi
+volume-data/mysql_keycloak_data/*.CSM
+volume-data/mysql_keycloak_data/*.CSV
+volume-data/mysql_keycloak_data/#*
+volume-data/mysql_keycloak_data/ib*
+volume-data/mysql_keycloak_data/undo_*
+volume-data/mysql_keycloak_data/performance_schema/
+volume-data/mysql_keycloak_data/mysql/
+volume-data/mysql_keycloak_data/keycloak/
+volume-data/mysql_keycloak_data/private_key.pem
+volume-data/mysql_keycloak_data/public_key.pem
+volume-data/mysql_keycloak_data/server-cert.pem
+volume-data/mysql_keycloak_data/server-key.pem
+volume-data/mysql_keycloak_data/client-cert.pem
+volume-data/mysql_keycloak_data/client-key.pem
+
+# Ignore other system files
+*.log
+*.tmp
+*.swp

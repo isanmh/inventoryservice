@@ -1,0 +1,107 @@
+## Inventory Service
+Dependencies:
+- Mysql Driver
+- Spring Web
+- Spring Data JPA
+- Flyway Migration
+- Lombok
+
+## alur :
+- Entity -> Repository -> DTO -> Service -> Controller
+
+## Entity :
+- Event (ManyTo One) (id, name, leftCapacity, ticketPrice, venueId)
+- Venue (OneTo Many) (id, name, address, totalCapacity)
+
+## Repository :
+- EventRepo
+- VenueRepo
+
+## DTO :
+- EventData
+- VenueData
+
+## Service :
+- InventoryService
+    - getAllEvents (mengambil semua event)
+    - getVenueInformation (mengambil informasi venue berdasarkan venueId)
+    - getEventInventory (mengambil informasi event berdasarkan eventId)
+    - updateEventCapacity (mengupdate capacity event setelah ada pemesanan tiket)
+
+## Controller :
+- InventoryController
+    - GET /events (memanggil getAllEvents)
+    - GET /events/{eventId} (memanggil getEventInventory)
+    - GET /venues/{venueId} (memanggil getVenueInformation)
+    - PUT /events/{eventId}/capacity (memanggil updateEventCapacity)
+
+## Koneksi Database docker compose:
+- docker-compose.yaml
+services:
+  mysql:
+    image: mysql:8.3.0
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: ticketing
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - db-data:/var/lib/mysql
+      - db-data:/var/log/mysql
+
+volumes:
+    db-data:
+
+## konfigurasi database di application.properties
+- buat folder docker/mysql/init.sql
+- buat file init.sql dengan isi sebagai berikut :
+    CREATE DATABASE IF NOT EXISTS ticketing;
+    USE ticketing;
+    
+## jalankan mysql dengan docker compose
+- docker compose up -d
+- cek mysql sudah jalan di localhost:3306
+
+## buat migration Flyway di folder resources/db/migration
+- V1__Create_event_and_venue_tables.sql
+
+- V1__init.sql
+CREATE TABLE venue (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    total_capacity BIGINT NOT NULL
+);
+
+CREATE TABLE event (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    venue_id BIGINT NOT NULL,
+    total_capacity BIGINT NOT NULL,
+    left_capacity BIGINT NOT NULL,
+    CONSTRAINT fk_event_venue FOREIGN KEY (venue_id) REFERENCES venue(id) ON DELETE CASCADE
+);
+
+- lakukan mvn clean install
+- cek di mysql database ticketing sudah ada tabel event dan venue
+
+## docker compose down
+## docker compose untuk inventory service using booking service kafka
+- docker-compose.yaml
+  - kafka dan zookeeper
+  - mysql
+  - kafka-ui
+  - kafka broker
+  - kafka schema registry
+
+- docker compose -v up -d 
+ (-v untuk rebuild image jika ada perubahan di dockerfile -d untuk menjalankan di background)
+
+ ## kembali ke booking service
+ - tambahkan dependency kafka di pom.xml
+  - spring-kafka
+  - kafka-clients
+  - lombok
