@@ -19,12 +19,8 @@ import java.util.List;
 @RequestMapping("/api/v1")
 public class InventoryController {
 
-    private InventoryService inventoryService;
-
     @Autowired
-    public InventoryController(final InventoryService inventoryService) {
-        this.inventoryService = inventoryService;
-    }
+    private InventoryService inventoryService;
 
     @GetMapping("/inventory/events")
     public @ResponseBody List<EventInventoryResponse> inventoryGetAllEvents() {

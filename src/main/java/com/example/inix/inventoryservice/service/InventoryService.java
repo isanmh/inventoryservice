@@ -18,14 +18,11 @@ import java.util.stream.Collectors;
 @Slf4j
 public class InventoryService {
 
-    private final EventRepository eventRepository;
-    private final VenueRepository venueRepository;
+    @Autowired
+    private EventRepository eventRepository;
 
     @Autowired
-    public InventoryService(final EventRepository eventRepository, final VenueRepository venueRepository) {
-        this.eventRepository = eventRepository;
-        this.venueRepository = venueRepository;
-    }
+    private VenueRepository venueRepository;
 
     public List<EventInventoryResponse> getAllEvents() {
         final List<Event> events = eventRepository.findAll();
